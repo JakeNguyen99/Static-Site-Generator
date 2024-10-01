@@ -39,5 +39,7 @@ class TestBlockMardown(unittest.TestCase):
    def test_paragraph(self):
       self.assertEqual(block_to_block_type("This is a paragraph of text. It has some **bold** and *italic* words inside of it."), "paragraph")
 
+   
+
 if __name__ == "__main__":
     unittest.main()
