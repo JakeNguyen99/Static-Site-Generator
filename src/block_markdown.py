@@ -33,15 +33,19 @@ def block_to_block_type(block):
   return 'paragraph'
   
 def text_to_leaf_node(text):
-  return [node.to_html_node() for node in text_to_textnodes(text)]
+  new_nodes = text_to_textnodes(text)
+  result = []
+  for node in new_nodes:
+    result.append(text_node_to_html_node(node))
+  return result
   
-def markdown_to_html_node(markdown):
+def markdown_to_html_node(markdown) -> ParentNode:
   nodes = []
   blocks = markdown_to_blocks(markdown)
   for block in blocks:
     block_type = block_to_block_type(block)
     if block_type == block_type_heading:
-      hashes, content = block(" ", 1)
+      hashes, content = block.split(" ", 1)
       node = ParentNode(f"h{len(hashes)}", text_to_leaf_node(content))
     elif block_type == block_type_code:
       content = block[3:-3].strip()
