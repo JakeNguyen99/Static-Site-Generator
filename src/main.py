@@ -1,27 +1,20 @@
-from textnode import TextNode
 import os
 import shutil
-
-def copy_static(src, dst):
-  if not os.path.exists(dst):
-    os.makedirs(dst)
-  for item in os.listdir(src):
-    src_item = os.path.join(src, item)
-    dst_item = os.path.join(dst, item)
-    if os.path.isdir(src_item):
-      copy_static(src_item, dst_item)
-    else:
-      shutil.copy2(src_item, dst_item)
+from copy_static import copy_static
+from page import generate_page
 
 def main():
   src = os.path.join(os.curdir, "static")
   dst = os.path.join(os.curdir, "public")
+  template_path = os.path.join(os.curdir, "template.html")
+  content_path = os.path.join(os.curdir, "content\index.md")
 
   if os.path.exists(dst):
     shutil.rmtree(dst)
     os.makedirs(dst)
 
   copy_static(src, dst)
+  generate_page(content_path, template_path,dst)
 
 
 main()
