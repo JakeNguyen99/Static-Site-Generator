@@ -51,8 +51,13 @@ def markdown_to_html_node(markdown) -> ParentNode:
       content = block[3:-3].strip()
       node = ParentNode("pre", [ParentNode("code", text_to_leaf_node(content))])
     elif block_type == block_type_quote:
-      lines = block.split("\n")
-      content = "\n".join(map(lambda line: line.removeprefix("> "), lines))
+      '''lines = block.split("\n")
+      content = "\n".join(map(lambda line: line.removeprefix("> "), lines))'''
+      lines = re.split(r'\n', block)
+      for i in range(len(lines)):
+        if lines[i].startswith("> "):
+          lines[i] = lines[i][2:]
+      content = "\n".join(lines)
       node = ParentNode("blockquote", text_to_leaf_node(content))
     elif block_type == block_type_unordered_list:
       lines = block.split("\n")
